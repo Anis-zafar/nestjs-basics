@@ -1,75 +1,44 @@
 import {
+  Delete,
+  Patch,
   Body,
   Controller,
   Get,
   Post,
   Param,
-  // Query,
+  Query,
   UsePipes,
   ValidationPipe,
   ParseIntPipe,
+  HttpException,
+  HttpStatus,
+  Put,
   // ParseBoolPipe,
 } from '@nestjs/common';
 // import { Query } from 'mongoose';
 // import { Request, Response } from 'express';
 import { CreateUserDTO } from 'src/users/dtos/CreateUser.dto';
 import { UsersService } from 'src/users/services/users/users.service';
+import { User } from 'src/users/users.models';
 
 @Controller('users')
 export class UsersController {
-  constructor(private Userservice: UsersService) {}
-  @Get()
-  getusers() {
-    return this.Userservice.fetchUsers();
-  }
-  @Get('posts')
-  getuserposts() {
-    return [
-      {
-        username: 'anis',
-        email: 'anis.zafar@ceative.com',
-        no_ofposts: [
-          {
-            id: 1,
-            postname: 'linkedin',
-            description: 'looking for a job',
-          },
-          {
-            id: 2,
-            postname: 'linkedin',
-            description: 'looking for a nodejs job',
-          },
-        ],
-      },
-    ];
-  }
-  @Get('posts/comments')
-  getcomments() {
-    return [
-      {
-        id: 1,
-        title: 'linkedin',
-        Comments: [
-          {
-            comment: 'i have a job ',
-          },
-        ],
-      },
-    ];
-  }
+  constructor(private readonly Userservice: UsersService) {}
+
   @Post('create')
-  @UsePipes(new ValidationPipe())
-  createuser(@Body() userdata: CreateUserDTO) {
-    console.log(userdata);
-    return this.Userservice.createUser(userdata);
+  async createUser(@Body() userDto: User) {
+    return this.Userservice.createUser(userDto);
   }
-  @Get(':id')
-  getuserbyid(@Param('id', ParseIntPipe) id: number) {
-    const user = this.Userservice.fetchUserById(id);
-    if (!user) {
-      return;
-    } else {
-      return { user: 'amos' };
-    }
+  @Get()
+  async getUsers() {
+    return this.Userservice.getUsers();
+  }
+  @Delete('delete/:id')
+  async deleteUser(@Param('id') id: number) {
+    return this.Userservice.delUser(id);
+  }
+  @Put('update/:id')
+  async updateUser(@Param('id') id: number, @Body() data: CreateUserDTO) {
+    return this.Userservice.updateUser(id, data);
   }
 }

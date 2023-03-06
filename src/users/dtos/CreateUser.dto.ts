@@ -6,4 +6,6 @@ export class CreateUserDTO {
   @IsEmail()
   @IsNotEmpty()
   email: string;
+  age: number;
+  createdAt: Date;
 }
