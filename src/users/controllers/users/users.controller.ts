@@ -16,6 +16,7 @@ import {
   HttpCode,
   // ParseBoolPipe,
 } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 // import { Query } from 'mongoose';
 // import { Request, Response } from 'express';
 import { CreateUserDTO } from 'src/users/dtos/CreateUser.dto';
@@ -46,5 +47,9 @@ export class UsersController {
   @Post('signup')
   async Signup(@Body() data: CreateUserDTO) {
     return this.Userservice.signup(data);
+  }
+  @Post('login')
+  async login(@Body() data: CreateUserDTO) {
+    return this.Userservice.login(data);
   }
 }

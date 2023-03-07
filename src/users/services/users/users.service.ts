@@ -7,6 +7,7 @@ import { HttpException } from '@nestjs/common/exceptions';
 import { HttpStatus } from '@nestjs/common/enums';
 import { CreateUserDTO } from 'src/users/dtos/CreateUser.dto';
 import * as bcrypt from 'bcrypt';
+import { JwtService } from '@nestjs/jwt';
 @Injectable()
 export class UsersService {
   constructor(@InjectModel('User') private usermodel: Model<My_Document>) {}
@@ -54,5 +55,17 @@ export class UsersService {
       throw new HttpException('Email already exists', HttpStatus.BAD_REQUEST);
     }
     // const token = await Jwt.sign(newUser, 'MYNAMEISKHAN');
+  }
+  //login user
+  async login(user: User) {
+    const data = await this.usermodel.findOne({ email: user.email });
+    if (!data) {
+      throw new HttpException('in valid credentails', HttpStatus.FORBIDDEN);
+    }
+    if (await bcrypt.compare(user.password, data.password)) {
+      return data;
+    } else {
+      throw new HttpException('in valid credentials', HttpStatus.FORBIDDEN);
+    }
   }
 }

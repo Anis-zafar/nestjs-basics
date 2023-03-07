@@ -4,6 +4,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 // import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
   imports: [
