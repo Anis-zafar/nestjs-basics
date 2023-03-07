@@ -17,6 +17,7 @@ import {
   // ParseBoolPipe,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { AuthService } from 'src/auth/auth.service';
 // import { Query } from 'mongoose';
 // import { Request, Response } from 'express';
 import { CreateUserDTO } from 'src/users/dtos/CreateUser.dto';
