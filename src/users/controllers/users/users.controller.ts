@@ -13,6 +13,7 @@ import {
   HttpException,
   HttpStatus,
   Put,
+  HttpCode,
   // ParseBoolPipe,
 } from '@nestjs/common';
 // import { Query } from 'mongoose';
@@ -26,6 +27,7 @@ export class UsersController {
   constructor(private readonly Userservice: UsersService) {}
 
   @Post('create')
+  @HttpCode(HttpStatus.CREATED)
   async createUser(@Body() userDto: User) {
     return this.Userservice.createUser(userDto);
   }
@@ -40,5 +42,9 @@ export class UsersController {
   @Put('update/:id')
   async updateUser(@Param('id') id: number, @Body() data: CreateUserDTO) {
     return this.Userservice.updateUser(id, data);
+  }
+  @Post('signup')
+  async Signup(@Body() data: CreateUserDTO) {
+    return this.Userservice.signup(data);
   }
 }

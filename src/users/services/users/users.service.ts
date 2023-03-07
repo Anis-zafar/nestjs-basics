@@ -6,6 +6,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { HttpException } from '@nestjs/common/exceptions';
 import { HttpStatus } from '@nestjs/common/enums';
 import { CreateUserDTO } from 'src/users/dtos/CreateUser.dto';
+import * as bcrypt from 'bcrypt';
 @Injectable()
 export class UsersService {
   constructor(@InjectModel('User') private usermodel: Model<My_Document>) {}
@@ -40,5 +41,18 @@ export class UsersService {
       throw new HttpException('User not Found', HttpStatus.BAD_REQUEST);
     }
     return user;
+  }
+  //signup user
+  async signup(user: User) {
+    const newUser = new this.usermodel(user);
+    const data = await this.usermodel.findOne({ email: user.email });
+    if (!data) {
+      const hash = await bcrypt.hash(newUser.password, 10);
+      newUser.password = hash;
+      return newUser.save();
+    } else {
+      throw new HttpException('Email already exists', HttpStatus.BAD_REQUEST);
+    }
+    // const token = await Jwt.sign(newUser, 'MYNAMEISKHAN');
   }
 }
