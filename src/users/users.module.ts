@@ -8,7 +8,7 @@ import { UsersService } from './services/users/users.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserSchema } from './users.models';
 import { JwtModule, JwtService } from '@nestjs/jwt';
-import { jwtConstants } from '../constants/constant';
+// import { jwtConstants } from '../constants/constant';
 // import { AuthService } from 'src/auth/auth.service';
 @Module({
   imports: [MongooseModule.forFeature([{ name: 'User', schema: UserSchema }])],
