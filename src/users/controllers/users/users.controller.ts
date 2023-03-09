@@ -30,12 +30,27 @@ import {
   ApiBody,
   ApiCreatedResponse,
   ApiOkResponse,
+  ApiTags,
 } from '@nestjs/swagger';
-
+@ApiTags('User')
 @Controller('users')
 export class UsersController {
   constructor(private readonly Userservice: UsersService) {}
+  @Post('signup')
+  @ApiCreatedResponse({ description: 'user registered' })
+  @UsePipes(new ValidationPipe())
+  async Signup(@Body() data: CreateUserDTO) {
+    return this.Userservice.signup(data);
+  }
 
+  @Post('login')
+  @ApiCreatedResponse({ description: 'user logined' })
+  @UsePipes(new ValidationPipe())
+  async login(@Body() data: loginDTO) {
+    const user = await this.Userservice.login(data);
+    // console.log(user);
+    return user;
+  }
   @Post('create')
   @ApiBearerAuth()
   @ApiCreatedResponse({ description: 'user registered' })
@@ -50,6 +65,7 @@ export class UsersController {
   }
   @Delete('delete/:id')
   @ApiBearerAuth()
+  @ApiCreatedResponse({ description: 'user deleted' })
   async deleteUser(@Param('id') id: string) {
     return this.Userservice.delUser(id);
   }
@@ -59,19 +75,5 @@ export class UsersController {
   @UsePipes(new ValidationPipe())
   async updateUser(@Param('id') id: string, @Body() data: CreateUserDTO) {
     return this.Userservice.updateUser(id, data);
-  }
-  @Post('signup')
-  @ApiCreatedResponse({ description: 'user registered' })
-  @UsePipes(new ValidationPipe())
-  async Signup(@Body() data: CreateUserDTO) {
-    return this.Userservice.signup(data);
-  }
-  @Post('login')
-  @ApiCreatedResponse({ description: 'user logined' })
-  @UsePipes(new ValidationPipe())
-  async login(@Body() data: loginDTO) {
-    const user = await this.Userservice.login(data);
-    // console.log(user);
-    return user;
   }
 }

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 // import { CreateUserType } from 'src/utlis/types';
 import { My_Document, User } from 'src/users/users.models';
 import { Model } from 'mongoose';
@@ -12,13 +12,13 @@ import { CreateUserDTO, loginDTO } from 'src/users/dtos/CreateUser.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { sign } from 'jsonwebtoken';
+import { ClientProxy } from '@nestjs/microservices';
 @Injectable()
 export class UsersService {
   // async Validate(username: string, password: string): User {
   //   throw new Error('Method not implemented.');
   // }
   constructor(@InjectModel('User') private usermodel: Model<My_Document>) {}
-
   //create User
   async createUser(user: User): Promise<User> {
     const newUser = new this.usermodel(user);
