@@ -8,7 +8,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common/exceptions';
 import { HttpStatus } from '@nestjs/common/enums';
-import { CreateUserDTO } from 'src/users/dtos/CreateUser.dto';
+import { CreateUserDTO, loginDTO } from 'src/users/dtos/CreateUser.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { sign } from 'jsonwebtoken';
@@ -22,7 +22,14 @@ export class UsersService {
   //create User
   async createUser(user: User): Promise<User> {
     const newUser = new this.usermodel(user);
-    return newUser.save();
+    const data = await this.usermodel.findOne({ email: user.email });
+    if (!data) {
+      const hash = await bcrypt.hash(newUser.password, 10);
+      newUser.password = hash;
+      return newUser.save();
+    } else {
+      throw new HttpException('Email already exists', HttpStatus.BAD_REQUEST);
+    }
   }
   async getUsers(): Promise<User[]> {
     const users = await this.usermodel.find();
@@ -69,7 +76,7 @@ export class UsersService {
     // const token = await Jwt.sign(newUser, 'MYNAMEISKHAN');
   }
   //login user
-  async login(user: User) {
+  async login(user: loginDTO) {
     const data = await this.usermodel.findOne({ email: user.email });
     if (!data) {
       throw new HttpException('incorrect credentials', HttpStatus.BAD_REQUEST);
