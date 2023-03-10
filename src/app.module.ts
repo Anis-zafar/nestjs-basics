@@ -1,8 +1,8 @@
-import { DynamicModule, Module, Options } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
-import { ClientsModule, Transport } from '@nestjs/microservices';
+// import { ClientsModule, Transport } from '@nestjs/microservices';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { EmailController } from './users/controllers/users/email.controller';
 @Module({

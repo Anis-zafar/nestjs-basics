@@ -50,7 +50,7 @@ export class AnotherMiddleware implements NestMiddleware {
         this.decode = this.jwtserv.decode(this.cleanToken);
         // console.log(this.cleanToken);
 
-        const validated = verify(this.cleanToken, 'secretkey');
+        verify(this.cleanToken, 'secretkey');
         // console.log(validated);
 
         next();

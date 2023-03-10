@@ -1,18 +1,18 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 // import { CreateUserType } from 'src/utlis/types';
 import { My_Document, User } from 'src/users/users.models';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import {
   HttpException,
-  UnauthorizedException,
+  // UnauthorizedException,
 } from '@nestjs/common/exceptions';
 import { HttpStatus } from '@nestjs/common/enums';
 import { CreateUserDTO, loginDTO } from 'src/users/dtos/CreateUser.dto';
 import * as bcrypt from 'bcrypt';
-import { JwtService } from '@nestjs/jwt';
+// import { JwtService } from '@nestjs/jwt';
 import { sign } from 'jsonwebtoken';
-import { ClientProxy } from '@nestjs/microservices';
+// import { ClientProxy } from '@nestjs/microservices';
 import { MailerService } from '@nestjs-modules/mailer';
 @Injectable()
 export class UsersService {
@@ -74,7 +74,7 @@ export class UsersService {
       const hash = await bcrypt.hash(newUser.password, 10);
       newUser.password = hash;
       newUser.save();
-      const e = await this.mailservice
+      await this.mailservice
         .sendMail({
           to: user.email,
           from: 'anis.zafar@ceative.co.uk',

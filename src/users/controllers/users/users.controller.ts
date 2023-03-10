@@ -6,33 +6,32 @@ import {
   Get,
   Post,
   Param,
-  Query,
   UsePipes,
   ValidationPipe,
-  ParseIntPipe,
-  HttpException,
-  HttpStatus,
-  Put,
-  HttpCode,
+  // ParseIntPipe,
+  // HttpException,
+  // HttpStatus,
+  // Put,
+  // HttpCode,
   // ParseBoolPipe,
 } from '@nestjs/common';
-import { UseGuards } from '@nestjs/common/decorators';
-import { JwtService } from '@nestjs/jwt';
-import { AuthGuard } from '@nestjs/passport';
+// import { UseGuards } from '@nestjs/common/decorators';
+// import { JwtService } from '@nestjs/jwt';
+// import { AuthGuard } from '@nestjs/passport';
 // import { AuthService } from 'src/auth/auth.service';
 // import { Query } from 'mongoose';
 // import { Request, Response } from 'express';
 import { CreateUserDTO, loginDTO } from '../../dtos/CreateUser.dto';
 import { UsersService } from 'src/users/services/users/users.service';
-import { User } from 'src/users/users.models';
+// import { User } from 'src/users/users.models';
 import {
   ApiBearerAuth,
-  ApiBody,
+  // ApiBody,
   ApiCreatedResponse,
   ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { MailerService } from '@nestjs-modules/mailer';
+
 @ApiTags('User')
 @Controller('users')
 export class UsersController {
