@@ -13,12 +13,16 @@ import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { sign } from 'jsonwebtoken';
 import { ClientProxy } from '@nestjs/microservices';
+import { MailerService } from '@nestjs-modules/mailer';
 @Injectable()
 export class UsersService {
   // async Validate(username: string, password: string): User {
   //   throw new Error('Method not implemented.');
   // }
-  constructor(@InjectModel('User') private usermodel: Model<My_Document>) {}
+  constructor(
+    @InjectModel('User') private usermodel: Model<My_Document>,
+    private readonly mailservice: MailerService,
+  ) {}
   //create User
   async createUser(user: User): Promise<User> {
     const newUser = new this.usermodel(user);
@@ -69,7 +73,16 @@ export class UsersService {
     if (!data) {
       const hash = await bcrypt.hash(newUser.password, 10);
       newUser.password = hash;
-      return newUser.save();
+      newUser.save();
+      const e = await this.mailservice.sendMail({
+        to: user.email,
+        from: 'anis.zafar@ceative.co.uk',
+        subject: 'Welcome to CEative',
+        text: 'You are successfully Singed in for the Company Ceative',
+      });
+      console.log(e);
+
+      return newUser;
     } else {
       throw new HttpException('Email already exists', HttpStatus.BAD_REQUEST);
     }

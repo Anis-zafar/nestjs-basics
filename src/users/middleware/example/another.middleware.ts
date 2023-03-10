@@ -53,11 +53,6 @@ export class AnotherMiddleware implements NestMiddleware {
         const validated = verify(this.cleanToken, 'secretkey');
         // console.log(validated);
 
-        // Other requests using this middleware can get the parsed value in the
-        // parameter, you can also analyze the parsed value and return res as
-        // above for those that do not match
-        // req.body._validated = validated;
-
         next();
       } catch (error) {
         throw new HttpException('in valid authorization', HttpStatus.FORBIDDEN);

@@ -32,6 +32,7 @@ import {
   ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { MailerService } from '@nestjs-modules/mailer';
 @ApiTags('User')
 @Controller('users')
 export class UsersController {
