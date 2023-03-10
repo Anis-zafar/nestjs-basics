@@ -74,13 +74,19 @@ export class UsersService {
       const hash = await bcrypt.hash(newUser.password, 10);
       newUser.password = hash;
       newUser.save();
-      const e = await this.mailservice.sendMail({
-        to: user.email,
-        from: 'anis.zafar@ceative.co.uk',
-        subject: 'Welcome to CEative',
-        text: 'You are successfully Singed in for the Company Ceative',
-      });
-      console.log(e);
+      const e = await this.mailservice
+        .sendMail({
+          to: user.email,
+          from: 'anis.zafar@ceative.co.uk',
+          subject: 'Welcome to CEative',
+          text: 'You are successfully Singed in for the Company Ceative',
+        })
+        .then(() => {
+          console.log('mail sent');
+        })
+        .catch(() => {
+          console.log('error');
+        });
 
       return newUser;
     } else {
