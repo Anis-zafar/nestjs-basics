@@ -56,3 +56,31 @@ export class loginDTO {
   // })
   password: string;
 }
+
+export class Users {
+  @ApiProperty({
+    type: String,
+    example: '640f03e2b997b81c37a48f9e',
+  })
+  id: any;
+  @ApiProperty({
+    type: String,
+    example: 'test',
+  })
+  username: any;
+  @ApiProperty({
+    type: String,
+    example: 'test@test.com',
+  })
+  email: any;
+  @ApiProperty({
+    type: String,
+    example: '$2b$10$M/m5UDNyW7BU3zce/wAMYeOiIoNWpI5Lmw4lBjPgl4fZH64E.95JG',
+  })
+  'password': '1234';
+  @ApiProperty({
+    type: String,
+    example: '23',
+  })
+  age: any;
+}

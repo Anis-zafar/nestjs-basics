@@ -21,14 +21,16 @@ import {
 // import { AuthService } from 'src/auth/auth.service';
 // import { Query } from 'mongoose';
 // import { Request, Response } from 'express';
-import { CreateUserDTO, loginDTO } from '../../dtos/CreateUser.dto';
+import { CreateUserDTO, loginDTO, Users } from '../../dtos/CreateUser.dto';
 import { UsersService } from 'src/users/services/users/users.service';
 // import { User } from 'src/users/users.models';
 import {
   ApiBearerAuth,
+  ApiBody,
   // ApiBody,
   ApiCreatedResponse,
   ApiOkResponse,
+  ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
 
@@ -38,6 +40,29 @@ export class UsersController {
   constructor(private readonly Userservice: UsersService) {}
   @Post('signup')
   @ApiCreatedResponse({ description: 'user registered' })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        username: {
+          type: 'string',
+          example: 'Test',
+        },
+        email: {
+          type: 'string',
+          example: 'test123@abc.xyz',
+        },
+        password: {
+          type: 'string',
+          example: '1234',
+        },
+        age: {
+          type: 'integer',
+          example: 23,
+        },
+      },
+    },
+  })
   @UsePipes(new ValidationPipe())
   async Signup(@Body() data: CreateUserDTO) {
     return this.Userservice.signup(data);
@@ -45,6 +70,20 @@ export class UsersController {
 
   @Post('login')
   @ApiCreatedResponse({ description: 'user logined' })
+  @ApiBody({
+    schema: {
+      properties: {
+        email: {
+          type: 'string',
+          example: 'test123@abc.xyz',
+        },
+        password: {
+          type: 'string',
+          example: '1234',
+        },
+      },
+    },
+  })
   @UsePipes(new ValidationPipe())
   async login(@Body() data: loginDTO) {
     const user = await this.Userservice.login(data);
@@ -54,12 +93,67 @@ export class UsersController {
   @Post('create')
   @ApiBearerAuth()
   @ApiCreatedResponse({ description: 'user registered' })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        username: {
+          type: 'string',
+          example: 'Test',
+        },
+        email: {
+          type: 'string',
+          example: 'test123@abc.xyz',
+        },
+        password: {
+          type: 'string',
+          example: '1234',
+        },
+        age: {
+          type: 'integer',
+          example: 23,
+        },
+      },
+    },
+  })
   @UsePipes(new ValidationPipe())
   async createUser(@Body() userDto: CreateUserDTO) {
     return this.Userservice.createUser(userDto);
   }
   @Get()
   @ApiBearerAuth()
+  @ApiResponse({
+    description: 'get all users',
+    schema: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          id: {
+            type: 'string',
+            example: '640f03e2b997b81c37a48f9e',
+          },
+          username: {
+            type: 'string',
+            example: 'Test',
+          },
+          email: {
+            type: 'string',
+            example: 'test123@abc.xyz',
+          },
+          password: {
+            type: 'string',
+            example:
+              '$2b$10$M/m5UDNyW7BU3zce/wAMYeOiIoNWpI5Lmw4lBjPgl4fZH64E.95JG',
+          },
+          age: {
+            type: 'integer',
+            example: 23,
+          },
+        },
+      },
+    },
+  })
   async getUsers() {
     return this.Userservice.getUsers();
   }
