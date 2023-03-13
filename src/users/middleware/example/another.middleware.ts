@@ -17,21 +17,6 @@ export class AnotherMiddleware implements NestMiddleware {
   constructor(private readonly jwtserv: JwtService) {}
 
   async use(req: Request, res: Response, next: NextFunction) {
-    // const token = req.headers['authorization'];
-    // console.log(token);
-
-    // if (!token) throw new UnauthorizedException();
-    // try {
-    //   this.cleanToken = token.replace('Bearer', '').trim();
-    //   this.decode = this.jwtserv.decode(this.cleanToken);
-    //   console.log(this.cleanToken);
-    //   this.valid = verify(this.cleanToken, 'secretkey');
-    //   console.log('anis', this.valid);
-    // } catch (error) {
-    //   throw new UnauthorizedException();
-    // }
-
-    // next();
     if (!req.headers.authorization) {
       res.writeHead(401, { 'content-type': 'application/json' });
       res.write(
@@ -49,10 +34,11 @@ export class AnotherMiddleware implements NestMiddleware {
         this.cleanToken = token.replace('Bearer', '').trim();
         this.decode = this.jwtserv.decode(this.cleanToken);
         // console.log(this.cleanToken);
+        // console.log(this.decode);
 
         verify(this.cleanToken, 'secretkey');
         // console.log(validated);
-
+        req.user = this.decode;
         next();
       } catch (error) {
         throw new HttpException('in valid authorization', HttpStatus.FORBIDDEN);

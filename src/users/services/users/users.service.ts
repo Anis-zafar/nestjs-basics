@@ -24,13 +24,14 @@ export class UsersService {
     private readonly mailservice: MailerService,
   ) {}
   //create User
-  async createUser(user: User): Promise<User> {
+  async createUser(user: User): Promise<any> {
     const newUser = new this.usermodel(user);
     const data = await this.usermodel.findOne({ email: user.email });
     if (!data) {
       const hash = await bcrypt.hash(newUser.password, 10);
       newUser.password = hash;
-      return newUser.save();
+      newUser.save();
+      return { data: newUser, message: 'user created', error: null };
     } else {
       throw new HttpException('Email already exists', HttpStatus.BAD_REQUEST);
     }
@@ -54,17 +55,21 @@ export class UsersService {
       const hash = await bcrypt.hash(data.password, 10);
       data.password = hash;
     }
+    const temp = await this.usermodel.findOne({ email: data.email });
+    if (!temp) {
+      const user = await this.usermodel.findOneAndUpdate(
+        { _id: id },
+        { $set: { ...data } },
+        { new: true },
+      );
 
-    const user = await this.usermodel.findOneAndUpdate(
-      { _id: id },
-      { $set: { ...data } },
-      { new: true },
-    );
-
-    if (!user) {
-      throw new HttpException('User not Found', HttpStatus.BAD_REQUEST);
+      if (!user) {
+        throw new HttpException('User not Found', HttpStatus.BAD_REQUEST);
+      }
+      return user;
+    } else {
+      throw new HttpException('email already in use', HttpStatus.FORBIDDEN);
     }
-    return user;
   }
   //signup user
   async signup(user: User) {
@@ -88,7 +93,11 @@ export class UsersService {
           console.log('error');
         });
 
-      return newUser;
+      return {
+        data: newUser,
+        message: 'User signedup successfully',
+        error: null,
+      };
     } else {
       throw new HttpException('Email already exists', HttpStatus.BAD_REQUEST);
     }
@@ -116,9 +125,29 @@ export class UsersService {
     }
   }
 
-  // async login(user: any) {
-  //   console.log('anis');
+  async updatemyself(req: { id: any }, user: CreateUserDTO) {
+    if (user.password !== undefined) {
+      const hash = await bcrypt.hash(user.password, 10);
+      user.password = hash;
+    }
+    const temp = await this.usermodel.findOne({ email: user.email });
+    if (!temp) {
+      const user1 = await this.usermodel.findOneAndUpdate(
+        { _id: req.id },
+        { $set: { ...user } },
+        { new: true },
+      );
 
-  //   return await this.usermodel.findOne({ email: user.email });
-  // }
+      if (!user1) {
+        throw new HttpException('User not Found', HttpStatus.BAD_REQUEST);
+      }
+      return user1;
+    } else {
+      throw new HttpException('email already in use', HttpStatus.FORBIDDEN);
+    }
+  }
+  async upload(file: any) {
+    console.log(file.Buffer);
+    // u can save Buffer to DB
+  }
 }

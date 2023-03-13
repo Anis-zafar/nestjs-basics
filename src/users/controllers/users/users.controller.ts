@@ -8,6 +8,9 @@ import {
   Param,
   UsePipes,
   ValidationPipe,
+  Put,
+  Req,
+  UseInterceptors,
   // ParseIntPipe,
   // HttpException,
   // HttpStatus,
@@ -37,6 +40,9 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { request } from 'http';
+import { FileInterceptor } from '@nestjs/platform-express/multer';
+import { UploadedFile } from '@nestjs/common/decorators';
 
 @ApiTags('User')
 @Controller('users')
@@ -270,5 +276,16 @@ export class UsersController {
   @UsePipes(new ValidationPipe())
   async updateUser(@Param('id') id: string, @Body() data: CreateUserDTO) {
     return this.Userservice.updateUser(id, data);
+  }
+  @Patch('update')
+  async updatemyself(@Req() req: any, @Body() user: CreateUserDTO) {
+    return this.Userservice.updatemyself(req.user, user);
+  }
+
+  @Post('upload')
+  @UseInterceptors(FileInterceptor('file'))
+  async upload(@UploadedFile() file: Express.Multer.File) {
+    console.log(file.buffer);
+    return this.Userservice.upload(file);
   }
 }

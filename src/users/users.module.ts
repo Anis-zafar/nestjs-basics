@@ -27,6 +27,7 @@ export class UsersModule implements NestModule {
         { path: 'users/delete/:id', method: RequestMethod.DELETE },
         { path: 'users/update/:id', method: RequestMethod.PATCH },
         { path: 'users/create', method: RequestMethod.POST },
+        { path: 'users/update', method: RequestMethod.PATCH },
       );
   }
 }
