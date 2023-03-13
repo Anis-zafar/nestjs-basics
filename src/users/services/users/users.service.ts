@@ -64,7 +64,7 @@ export class UsersService {
     if (!user) {
       throw new HttpException('User not Found', HttpStatus.BAD_REQUEST);
     }
-    return;
+    return user;
   }
   //signup user
   async signup(user: User) {
@@ -101,8 +101,16 @@ export class UsersService {
       throw new HttpException('incorrect credentials', HttpStatus.BAD_REQUEST);
     }
     if (await bcrypt.compare(user.password, data.password)) {
-      const token = sign({ id: data.id }, 'secretkey', { expiresIn: '1d' });
-      return { data, token };
+      const Accesstoken = sign({ id: data.id }, 'secretkey', {
+        expiresIn: '1d',
+      });
+      return {
+        id: data.id,
+        email: data.email,
+        username: data.username,
+        age: data.age,
+        Auth_token: Accesstoken,
+      };
     } else {
       throw new HttpException('incorrect credentials', HttpStatus.BAD_REQUEST);
     }

@@ -57,30 +57,70 @@ export class loginDTO {
   password: string;
 }
 
-export class Users {
+export class UsersResponseDto {
   @ApiProperty({
-    type: String,
-    example: '640f03e2b997b81c37a48f9e',
+    example: [
+      {
+        _id: '6407428302d2114eb945a8a4',
+        username: 'Anis Zafar',
+        password:
+          '$2b$10$iNOhDNXP0hHWRxlflh9uQ./MeObl4GSikasPkdBW1aBiL8G5UpoGS',
+        email: 'anis.zafar@ceative.co.uk',
+        age: 24,
+        createdAt: '2023-03-07T13:56:19.807Z',
+        __v: 0,
+      },
+      {
+        _id: '6407428302d2114eb945a8a4',
+        username: 'Anis Zafar',
+        password:
+          '$2b$10$iNOhDNXP0hHWRxlflh9uQ./MeObl4GSikasPkdBW1aBiL8G5UpoGS',
+        email: 'anis.zafar@ceative.co.uk',
+        age: 24,
+        createdAt: '2023-03-07T13:56:19.807Z',
+        __v: 0,
+      },
+      {
+        _id: '6407428302d2114eb945a8a4',
+        username: 'Anis Zafar',
+        password:
+          '$2b$10$iNOhDNXP0hHWRxlflh9uQ./MeObl4GSikasPkdBW1aBiL8G5UpoGS',
+        email: 'anis.zafar@ceative.co.uk',
+        age: 24,
+        createdAt: '2023-03-07T13:56:19.807Z',
+        __v: 0,
+      },
+      {
+        _id: '6407428302d2114eb945a8a4',
+        username: 'Anis Zafar',
+        password:
+          '$2b$10$iNOhDNXP0hHWRxlflh9uQ./MeObl4GSikasPkdBW1aBiL8G5UpoGS',
+        email: 'anis.zafar@ceative.co.uk',
+        age: 24,
+        createdAt: '2023-03-07T13:56:19.807Z',
+        __v: 0,
+      },
+      {
+        _id: '6407429302d2114eb945a8a7',
+        username: 'Ali Zafar',
+        password:
+          '$2b$10$MQL5ZkM9K86L9nCfhsFUHOuk5VbO3uq0DMW61mZvE79dXo2oRW5oC',
+        email: 'ali.zafar@ceative.co.uk',
+        age: 24,
+        createdAt: '2023-03-07T13:56:35.144Z',
+        __v: 0,
+      },
+      {
+        _id: '640742a402d2114eb945a8aa',
+        username: 'Ali Hamza',
+        password:
+          '$2b$10$wVgEVyRJVXMUkpghhHgFmujTE5X7c1ALkr8oitsHXS3Qi3IZbe8Rq',
+        email: 'ali.hamza@ceative.co.uk',
+        age: 24,
+        createdAt: '2023-03-07T13:56:52.459Z',
+        __v: 0,
+      },
+    ],
   })
-  id: any;
-  @ApiProperty({
-    type: String,
-    example: 'test',
-  })
-  username: any;
-  @ApiProperty({
-    type: String,
-    example: 'test@test.com',
-  })
-  email: any;
-  @ApiProperty({
-    type: String,
-    example: '$2b$10$M/m5UDNyW7BU3zce/wAMYeOiIoNWpI5Lmw4lBjPgl4fZH64E.95JG',
-  })
-  'password': '1234';
-  @ApiProperty({
-    type: String,
-    example: '23',
-  })
-  age: any;
+  data: any;
 }

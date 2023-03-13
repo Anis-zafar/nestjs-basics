@@ -22,8 +22,8 @@ import { EmailController } from './users/controllers/users/email.controller';
       transport: {
         host: 'smtp.ethereal.email',
         auth: {
-          user: 'cooper.swaniawski95@ethereal.email',
-          pass: 'nFNJ1A5f9cfwtsSK5U',
+          user: 'etha39@ethereal.email',
+          pass: 'ReugNpvZnd2dFNHp12',
         },
       },
     }),
