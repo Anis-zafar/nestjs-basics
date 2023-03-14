@@ -12,8 +12,9 @@ import { CreateUserDTO, loginDTO } from 'src/users/dtos/CreateUser.dto';
 import * as bcrypt from 'bcrypt';
 // import { JwtService } from '@nestjs/jwt';
 import { sign } from 'jsonwebtoken';
-// import { ClientProxy } from '@nestjs/microservices';
+import { imageFileFilter } from '../../../utlis/file-uploading.utlis';
 import { MailerService } from '@nestjs-modules/mailer';
+import express from 'express';
 @Injectable()
 export class UsersService {
   // async Validate(username: string, password: string): User {
@@ -146,8 +147,9 @@ export class UsersService {
       throw new HttpException('email already in use', HttpStatus.FORBIDDEN);
     }
   }
-  async upload(file: any) {
-    console.log(file.Buffer);
-    // u can save Buffer to DB
+  async uploadFile(res, file: any) {
+    // console.log(typeof file.path);
+
+    return { file, message: new HttpException('file uploaded', HttpStatus.OK) };
   }
 }

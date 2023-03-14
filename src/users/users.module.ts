@@ -7,13 +7,17 @@ import { ConfigService } from '@nestjs/config';
 import { UsersService } from './services/users/users.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserSchema } from './users.models';
-import { JwtModule, JwtService } from '@nestjs/jwt';
-import { AuthModule } from 'src/auth/auth.module';
+import { JwtService } from '@nestjs/jwt';
 import { RequestMethod } from '@nestjs/common/enums';
-// import { jwtConstants } from '../constants/constant';
-// import { AuthService } from 'src/auth/auth.service';
+import { MulterModule } from '@nestjs/platform-express';
+
 @Module({
-  imports: [MongooseModule.forFeature([{ name: 'User', schema: UserSchema }])],
+  imports: [
+    MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]),
+    MulterModule.register({
+      dest: './uploads',
+    }),
+  ],
   controllers: [UsersController],
   providers: [UsersService, JwtService],
   exports: [UsersService],

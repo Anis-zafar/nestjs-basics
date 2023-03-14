@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { EmailController } from './users/controllers/users/email.controller';
 import { MulterModule } from '@nestjs/platform-express';
+import { UploadsModule } from './uploads/uploads.module';
 @Module({
   imports: [
     UsersModule,
@@ -28,9 +29,7 @@ import { MulterModule } from '@nestjs/platform-express';
         },
       },
     }),
-    MulterModule.register({
-      dest: './uploads',
-    }),
+    UploadsModule,
   ],
   controllers: [EmailController],
   providers: [],

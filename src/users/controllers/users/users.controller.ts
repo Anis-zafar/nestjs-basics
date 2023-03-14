@@ -42,7 +42,10 @@ import {
 } from '@nestjs/swagger';
 import { request } from 'http';
 import { FileInterceptor } from '@nestjs/platform-express/multer';
-import { UploadedFile } from '@nestjs/common/decorators';
+import { Res, UploadedFile } from '@nestjs/common/decorators';
+import path, { extname } from 'path';
+import { response } from 'express';
+import { diskStorage } from 'multer';
 
 @ApiTags('User')
 @Controller('users')
@@ -283,9 +286,22 @@ export class UsersController {
   }
 
   @Post('upload')
-  @UseInterceptors(FileInterceptor('file'))
-  async upload(@UploadedFile() file: Express.Multer.File) {
-    console.log(file.buffer);
-    return this.Userservice.upload(file);
+  @UseInterceptors(
+    FileInterceptor('image', {
+      storage: diskStorage({
+        destination: './files',
+        filename: (req, file, callBack) => {
+          const uniqueSuffix =
+            Date.now() + '-' + Math.round(Math.random() * 1e9);
+          const ext = extname(file.originalname);
+          const filename = `${file.originalname}-${uniqueSuffix}${ext}`;
+          callBack(null, filename);
+        },
+      }),
+    }),
+  )
+  async upload(@UploadedFile() file, @Res() res) {
+    return this.Userservice.uploadFile(res, file);
+    // return this.Userservice.upload(file);
   }
 }
