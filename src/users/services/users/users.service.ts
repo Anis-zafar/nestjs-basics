@@ -158,4 +158,9 @@ export class UsersService {
     user.image = file;
     return user.save();
   }
+  async getusers(user: CreateUserDTO) {
+    const data = await this.usermodel.aggregate([{ $match: { age: 23 } }]);
+    console.log(data);
+    return data;
+  }
 }

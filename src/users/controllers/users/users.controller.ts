@@ -325,4 +325,9 @@ export class UsersController {
     await this.Userservice.updateimage(id, filename);
     return { filename };
   }
+
+  @Get('random')
+  async get(user: CreateUserDTO) {
+    return this.Userservice.getusers(user);
+  }
 }
