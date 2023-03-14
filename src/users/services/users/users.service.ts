@@ -119,6 +119,7 @@ export class UsersService {
         email: data.email,
         username: data.username,
         age: data.age,
+        image: data.image,
         Auth_token: Accesstoken,
       };
     } else {
@@ -151,5 +152,10 @@ export class UsersService {
     // console.log(typeof file.path);
 
     return { file, message: new HttpException('file uploaded', HttpStatus.OK) };
+  }
+  async updateimage(id: string, file: any) {
+    const user = await this.usermodel.findOne({ _id: id });
+    user.image = file;
+    return user.save();
   }
 }

@@ -15,6 +15,8 @@ export class User {
 
   @Prop({ default: Date.now })
   createdAt: Date;
+  @Prop({ nullable: true })
+  image: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

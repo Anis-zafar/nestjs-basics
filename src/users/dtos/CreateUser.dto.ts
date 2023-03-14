@@ -38,6 +38,7 @@ export class CreateUserDTO {
   //   message: 'password too weak',
   // })
   password: string;
+  image: string;
 }
 
 export class loginDTO {

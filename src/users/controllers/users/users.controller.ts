@@ -304,4 +304,25 @@ export class UsersController {
     return this.Userservice.uploadFile(res, file);
     // return this.Userservice.upload(file);
   }
+
+  @Post('upload/:id')
+  @UseInterceptors(
+    FileInterceptor('image', {
+      storage: diskStorage({
+        destination: './files',
+        filename: (req, file, callBack) => {
+          const uniqueSuffix =
+            Date.now() + '-' + Math.round(Math.random() * 1e9);
+          const ext = extname(file.originalname);
+          const filename = `${file.originalname}-${uniqueSuffix}${ext}`;
+          callBack(null, filename);
+        },
+      }),
+    }),
+  )
+  async updatepicture(@UploadedFile() file, @Param('id') id: string) {
+    const filename = file.filename;
+    await this.Userservice.updateimage(id, filename);
+    return { filename };
+  }
 }
